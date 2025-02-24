@@ -1,0 +1,476 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+================================================================
+File Summary
+================================================================
+
+Purpose:
+--------
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+
+File Format:
+------------
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Multiple file entries, each consisting of:
+  a. A separator line (================)
+  b. The file path (File: path/to/file)
+  c. Another separator line
+  d. The full contents of the file
+  e. A blank line
+
+Usage Guidelines:
+-----------------
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+
+Notes:
+------
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+
+Additional Info:
+----------------
+
+================================================================
+Directory Structure
+================================================================
+.gitattributes
+.gitignore
+README.md
+requirements.txt
+tattoo_classifier.py
+
+================================================================
+Files
+================================================================
+
+================
+File: .gitattributes
+================
+# Auto detect text files and perform LF normalization
+* text=auto
+
+================
+File: .gitignore
+================
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.env/
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Project specific
+*tattoo_analysis.csv
+ww-images/
+.env
+*.log
+*api-key.txt
+
+================
+File: README.md
+================
+# Tattoo Style Classifier
+
+A Python application that uses Google's Gemini AI to analyze tattoo images and classify their styles, providing detailed descriptions and multiple style interpretations.
+
+## Features
+
+- Analyzes tattoo images using Gemini AI
+- Classifies primary and secondary tattoo styles
+- Provides detailed descriptions of tattoo content
+- Handles rate limiting for API requests
+- Supports batch processing with resume capability
+- Exports results to CSV format
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/tattoo-classifier
+cd tattoo-classifier
+```
+
+2. Create and activate a virtual environment (recommended):
+```bash
+python -m venv venv
+
+# Windows
+.\venv\Scripts\activate
+
+# Linux/Mac
+source venv/bin/activate
+```
+
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+## Setting Up Environment Variables
+
+### Windows
+
+Temporary (current session only):
+```powershell
+$env:GOOGLE_API_KEY = "your-api-key-here"
+```
+
+Permanent (requires terminal restart):
+```powershell
+[System.Environment]::SetEnvironmentVariable('GOOGLE_API_KEY', 'your-api-key-here', 'User')
+```
+
+### Linux/Mac
+
+Temporary (current session only):
+```bash
+export GOOGLE_API_KEY="your-api-key-here"
+```
+
+Permanent:
+Add to ~/.bashrc or ~/.zshrc:
+```bash
+echo 'export GOOGLE_API_KEY="your-api-key-here"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+## Usage
+
+1. Place your tattoo images in a directory
+2. Update the `folder_path` in the script or use the current directory:
+   ```python
+   # Use specific path
+   folder_path = r"C:\path\to\your\images"
+   
+   # Or use current directory
+   folder_path = os.getcwd()
+   ```
+3. Run the script:
+```bash
+python tattoo_classifier.py
+```
+
+The script will:
+- Process all images in the specified directory
+- Skip previously processed images
+- Create/append to tattoo_analysis.csv with results
+- Respect API rate limits automatically
+
+## Output Format
+
+The script generates a CSV file with the following columns:
+- Image Path: Full path to the processed image
+- Primary Style: Main tattoo style identified
+- Secondary Style: Alternative style interpretation
+- Description: Detailed description of the tattoo
+- Processed Date: Timestamp of when the image was analyzed
+
+## Rate Limits
+
+The free tier of Gemini API has the following limits:
+- 15 requests per minute (RPM)
+- 1 million tokens per minute (TPM)
+- 1,500 requests per day (RPD)
+
+The script automatically handles these limits by:
+- Tracking requests per minute
+- Implementing waiting periods when needed
+- Adding safety buffers to prevent limit violations
+
+## Error Handling
+
+The script includes robust error handling for:
+- Invalid image files
+- API rate limiting
+- Network issues
+- Malformed responses
+- File system errors
+
+Failed processes are logged and can be retried in subsequent runs.
+
+## Roadmap
+
+### Version 1.1 (Next Release)
+- Add support for custom prompt templates
+- Implement concurrent processing for faster execution
+- Add progress bar visualization
+- Add error retry mechanism
+
+### Version 1.2
+- Add web interface for easier usage
+- Implement result filtering and sorting
+- Add support for bulk export formats
+- Add image preprocessing options
+
+### Version 2.0
+- Add support for multiple AI providers
+- Implement style confidence scores
+- Add automated style categorization
+- Add batch processing optimization
+
+## Common Issues
+
+1. **Rate Limiting**: If you receive rate limit errors, the script will automatically pause. No action needed.
+
+2. **Environment Variable Not Found**: Make sure to restart your terminal after setting a permanent environment variable.
+
+3. **Image Format Errors**: Ensure your images are in supported formats (jpg, jpeg, png, gif, webp).
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+## Acknowledgments
+
+- Google Gemini API for image analysis
+- Python Pillow library for image processing
+- Pandas for data handling
+
+## Support
+
+For issues and feature requests, please use the GitHub issue tracker.
+
+================
+File: requirements.txt
+================
+google-generativeai>=0.3.0
+Pillow>=10.0.0
+pandas>=2.0.0
+python-dotenv>=1.0.0
+
+================
+File: tattoo_classifier.py
+================
+import os
+from pathlib import Path
+import base64
+import csv
+import google.generativeai as genai
+from PIL import Image
+import io
+import time
+from datetime import datetime
+import pandas as pd
+
+def setup_gemini():
+    """Setup Gemini API with credentials"""
+    api_key = os.getenv('GOOGLE_API_KEY')
+    if not api_key:
+        raise ValueError("Please set GOOGLE_API_KEY environment variable")
+    
+    genai.configure(api_key=api_key)
+    return genai.GenerativeModel('gemini-1.5-flash')
+
+def encode_image(image_path):
+    """Convert image to PIL Image for Gemini API"""
+    try:
+        with Image.open(image_path) as img:
+            # Resize if image is too large (Gemini has size limits)
+            if max(img.size) > 2048:
+                ratio = 2048 / max(img.size)
+                new_size = tuple(int(dim * ratio) for dim in img.size)
+                img = img.resize(new_size, Image.Resampling.LANCZOS)
+            
+            # Convert to RGB if necessary
+            if img.mode != 'RGB':
+                img = img.convert('RGB')
+            
+            return img
+    except Exception as e:
+        print(f"Error processing image {image_path}: {str(e)}")
+        return None
+
+def analyze_tattoo(model, image_path):
+    """Analyze a single tattoo image using Gemini"""
+    prompt = """
+    Analyze this tattoo image and provide:
+    1. Primary tattoo style (most likely style)
+    2. Secondary tattoo style (another possible style)
+    3. Detailed description of the tattoo's content and special features
+    
+    Format your response exactly like this, with each item on a new line:
+    Primary: [style]
+    Secondary: [style]
+    Description: [detailed description]
+    """
+    
+    try:
+        image = encode_image(image_path)
+        if image is None:
+            return "Error", "Error", "Failed to load image"
+            
+        response = model.generate_content([prompt, image])
+        response.resolve()
+        
+        # Parse response
+        lines = response.text.strip().split('\n')
+        primary = lines[0].replace('Primary: ', '').strip()
+        secondary = lines[1].replace('Secondary: ', '').strip()
+        description = lines[2].replace('Description: ', '').strip()
+        
+        return primary, secondary, description
+    except Exception as e:
+        print(f"Error processing {image_path}: {str(e)}")
+        return "Error", "Error", f"Failed to process: {str(e)}"
+
+def get_processed_images(csv_path):
+    """Get list of already processed image paths from CSV"""
+    if not os.path.exists(csv_path):
+        return set()
+    
+    try:
+        df = pd.read_csv(csv_path)
+        return set(df['Image Path'].values)
+    except Exception as e:
+        print(f"Error reading existing CSV: {str(e)}")
+        return set()
+
+def process_folder(folder_path, output_csv):
+    """Process all images in a folder and save results to CSV"""
+    try:
+        print("Setting up Gemini API...")
+        model = setup_gemini()
+        print("Gemini API setup successful")
+        
+        # Get already processed images
+        processed_images = get_processed_images(output_csv)
+        print(f"Found {len(processed_images)} previously processed images")
+        
+        # Supported image extensions
+        image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.webp'}
+        
+        # Create or append to CSV
+        mode = 'a' if os.path.exists(output_csv) else 'w'
+        with open(output_csv, mode, newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            if mode == 'w':
+                writer.writerow(['Image Path', 'Primary Style', 'Secondary Style', 'Description', 'Processed Date'])
+            
+            # Process each image
+            folder = Path(folder_path)
+            total_processed = 0
+            requests_this_minute = 0
+            minute_start = time.time()
+            
+            for image_path in folder.glob('**/*'):
+                if image_path.suffix.lower() in image_extensions:
+                    # Skip if already processed
+                    if str(image_path) in processed_images:
+                        print(f"Skipping already processed image: {image_path}")
+                        continue
+                    
+                    # Rate limiting
+                    current_time = time.time()
+                    if current_time - minute_start >= 60:
+                        requests_this_minute = 0
+                        minute_start = current_time
+                    
+                    if requests_this_minute >= 14:  # Leave buffer for safety
+                        wait_time = 60 - (current_time - minute_start)
+                        print(f"\nRate limit approaching. Waiting {wait_time:.1f} seconds...")
+                        time.sleep(wait_time)
+                        requests_this_minute = 0
+                        minute_start = time.time()
+                    
+                    print(f"\nProcessing ({total_processed + 1}): {image_path}")
+                    try:
+                        primary, secondary, description = analyze_tattoo(model, image_path)
+                        processed_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        writer.writerow([str(image_path), primary, secondary, description, processed_date])
+                        print(f"Results for {image_path}:")
+                        print(f"- Primary Style: {primary}")
+                        print(f"- Secondary Style: {secondary}")
+                        print(f"- Description: {description}")
+                        total_processed += 1
+                        requests_this_minute += 1
+                        
+                        # Small delay between requests
+                        time.sleep(1)
+                    except Exception as e:
+                        print(f"Error processing {image_path}: {str(e)}")
+                        continue
+            
+            print(f"\nProcessing complete. Total new images processed: {total_processed}")
+    except Exception as e:
+        print(f"An error occurred during processing: {str(e)}")
+
+if __name__ == "__main__":
+    # Get current directory
+    current_dir = os.getcwd()
+    print(f"Current working directory: {current_dir}")
+    
+    # Use current directory as folder path
+    folder_path = current_dir
+    # code for a specific path
+    # folder_path = r"C:\Users\james\Downloads\rich photos"
+    output_csv = "tattoo_analysis.csv"
+    
+    print(f"Looking for images in: {folder_path}")
+    
+    # Count image files before processing
+    image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.webp'}
+    image_files = [f for f in os.listdir(folder_path) 
+                  if os.path.isfile(os.path.join(folder_path, f)) 
+                  and os.path.splitext(f)[1].lower() in image_extensions]
+    
+    print(f"Found {len(image_files)} image files:")
+    for file in image_files:
+        print(f"- {file}")
+    
+    # Process the folder
+    print("\nStarting image processing...")
+    process_folder(folder_path, output_csv)
+
+
+
+================================================================
+End of Codebase
+================================================================
